@@ -19,7 +19,7 @@ def check_data_exists(work_dir):
 
     checkpoints_url = "https://drive.google.com/file/d/1WdFa0O10Wt955tmvGbGykjIcJvRZBHVL"
     metadata_url = "https://drive.google.com/file/d/1AIiYBdFFG3fwaYnpw8oDC6lHQlybuJ0y"
-    sample_data_url = "https://drive.google.com/file/d/1x4ujBPjR6h4GHWenmnbw1FY8kWHNGCW7"
+    sample_data_url = "https://drive.google.com/file/d/1t9bUeg53wqEtsptCW1GbQnds0s5mCgW9"
 
     if not os.path.exists(checkpoints):
         file_name = os.path.basename(checkpoints)
