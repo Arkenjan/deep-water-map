@@ -1,0 +1,18 @@
+# conda env create -f environment.yml
+name: water
+dependencies:
+  - python=3.7
+  - tensorflow-gpu
+  - keras
+  - cudatoolkit
+  - notebook
+  - ipykernel
+  - matplotlib
+  - numpy
+  - tifffile
+  - opencv
+  - pip
+  - pip:
+      - googledrivedownloader
+      
+  
