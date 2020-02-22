@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode/
+*.zip
+checkpoints/
+metadata/
+sample_data/
 
 # C extensions
 *.so

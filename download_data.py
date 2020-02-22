@@ -56,5 +56,5 @@ if __name__ == "__main__":
     os.chdir(os.path.dirname(__file__))
     download_from_gdrive(gfile_url, 'testdata.zip')
     # print(os.getcwd())
-    # shutil.rmtree('testdata')
-    # os.remove('testdata.zip')
+    shutil.rmtree('testdata')
+    os.remove('testdata.zip')

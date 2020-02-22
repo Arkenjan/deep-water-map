@@ -2,17 +2,20 @@
 name: water
 dependencies:
   - python=3.7
-  - tensorflow-gpu
+  - tensorflow-gpu=2.0.0
   - keras
   - cudatoolkit
   - notebook
   - ipykernel
   - matplotlib
   - numpy
-  - tifffile
   - opencv
+  - gdal
   - pip
   - pip:
       - googledrivedownloader
+      - tifffile
+      - requests
+
       
   
