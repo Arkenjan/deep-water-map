@@ -95,25 +95,46 @@ if __name__ == '__main__':
     # python inference.py --checkpoint_path checkpoints/cp.135.ckpt --image_path sample_data/sentinel2_example.tif --save_path results/water_map.png
     # python inference.py --checkpoint_path checkpoints/cp.135.ckpt --image_path sample_data/p225r060.tif --save_path results/water_map2.png
 
+    # Customized input image and output path
+    ################################################################
     work_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # download pre-trained model and sample data
     check_data_exists(work_dir)
 
-    output_dir = os.path.join(work_dir, "results")
+    # set input image name/path
+    in_image_name = "sentinel2_example.tif"
+    # in_image_name = "p225r060_WC_19991031.tif"
+    in_image_name = "p200r018_WC_19990712.tif"
+    in_image_path = os.path.join(work_dir, "sample_data", in_image_name)
+    
+    # whether or not to use PNG as the output image format
+    use_png_ext = False
+
+    # set output image folder
+    output_dir = os.path.join(os.path.expanduser("~"), "temp")
+    # output_dir = os.path.join(work_dir, "results")
+
+    ################################################################
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    in_image_name = "sentinel2_example.tif"
-    # in_image_name = "p225r060_WC_19991031.tif"
-    in_image_path = os.path.join(work_dir, "sample_data", in_image_name)
-    # print(in_image_path)
-
+    # output image name is based on the input image name
     basename, extension = os.path.splitext(in_image_name)
+    if use_png_ext:
+        extension = ".png"
     out_image_name = basename + "_water" + extension
     out_image_path = os.path.join(output_dir, out_image_name)
-    # print(out_image_path)
 
-
+    # load pre-trained model
     checkpoint_path = os.path.join(work_dir, "checkpoints/cp.135.ckpt")
 
+    # image classification using deep learning
     predict(checkpoint_path, in_image_path, out_image_path)
-    set_projection(out_image_path, template_raster=in_image_path)
+
+    # add projection coordinate system
+    if not use_png_ext:
+        set_projection(out_image_path, template_raster=in_image_path)
+
+    print("\nOutput path: {}".format(out_image_path))
