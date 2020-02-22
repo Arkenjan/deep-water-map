@@ -15,7 +15,9 @@ dependencies:
   - pip:
       - googledrivedownloader
       - tifffile
+      - imagecodecs
       - requests
+
 
       
   

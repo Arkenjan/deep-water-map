@@ -17,6 +17,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from download_data import download_from_gdrive
+from projection import set_projection
 
 
 # check the existence of pre-trained model and test data. 
@@ -53,7 +54,7 @@ def find_padding(v, divisor=32):
     pad_2 = total_pad - pad_1
     return pad_1, pad_2
 
-def main(checkpoint_path, image_path, save_path):
+def predict(checkpoint_path, image_path, save_path):
     # load the model
     model = deepwatermap.model()
     model.load_weights(checkpoint_path)
@@ -97,8 +98,22 @@ if __name__ == '__main__':
     work_dir = os.path.dirname(os.path.abspath(__file__))
     check_data_exists(work_dir)
 
-    checkpoint_path = "checkpoints/cp.135.ckpt"
-    image_path = "sample_data/sentinel2_example.tif"
-    image_path = "/media/hdd/Data/NAIP/naip_6b.tif"
-    save_path = "results/water_map2.png"
-    # main(checkpoint_path, image_path, save_path)
+    output_dir = os.path.join(work_dir, "results")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    in_image_name = "sentinel2_example.tif"
+    # in_image_name = "p225r060_WC_19991031.tif"
+    in_image_path = os.path.join(work_dir, "sample_data", in_image_name)
+    # print(in_image_path)
+
+    basename, extension = os.path.splitext(in_image_name)
+    out_image_name = basename + "_water" + extension
+    out_image_path = os.path.join(output_dir, out_image_name)
+    # print(out_image_path)
+
+
+    checkpoint_path = os.path.join(work_dir, "checkpoints/cp.135.ckpt")
+
+    predict(checkpoint_path, in_image_path, out_image_path)
+    set_projection(out_image_path, template_raster=in_image_path)

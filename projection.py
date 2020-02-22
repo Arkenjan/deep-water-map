@@ -1,7 +1,7 @@
 import gdal
 
-def set_projection(in_raster, proj_raster):
-    dataset1 = gdal.Open(proj_raster)
+def set_projection(in_raster, template_raster):
+    dataset1 = gdal.Open(template_raster)
     projection = dataset1.GetProjection()
     geotransform = dataset1.GetGeoTransform()
 

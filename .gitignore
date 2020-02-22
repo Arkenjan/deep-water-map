@@ -7,6 +7,7 @@ __pycache__/
 checkpoints/
 metadata/
 sample_data/
+results/
 
 # C extensions
 *.so
