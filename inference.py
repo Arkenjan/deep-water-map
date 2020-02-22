@@ -1,14 +1,3 @@
-''' Runs inference on a given GeoTIFF image.
-
-example:
-$ python inference.py --checkpoint_path checkpoints/cp.135.ckpt \
-    --image_path sample_data/sentinel2_example.tif --save_path water_map.png
-'''
-
-# Uncomment this to run inference on CPU if your GPU runs out of memory
-# import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
 import os
 import argparse
 import deepwatermap
@@ -18,6 +7,8 @@ import cv2
 import matplotlib.pyplot as plt
 from download_data import download_from_gdrive
 from projection import set_projection
+# Uncomment this to run inference on CPU if your GPU runs out of memory
+# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
 # check the existence of pre-trained model and test data. 
@@ -28,7 +19,7 @@ def check_data_exists(work_dir):
 
     checkpoints_url = "https://drive.google.com/file/d/1WdFa0O10Wt955tmvGbGykjIcJvRZBHVL"
     metadata_url = "https://drive.google.com/file/d/1AIiYBdFFG3fwaYnpw8oDC6lHQlybuJ0y"
-    sample_data_url = "https://drive.google.com/file/d/1t9bUeg53wqEtsptCW1GbQnds0s5mCgW9"
+    sample_data_url = "https://drive.google.com/file/d/1x4ujBPjR6h4GHWenmnbw1FY8kWHNGCW7"
 
     if not os.path.exists(checkpoints):
         file_name = os.path.basename(checkpoints)
@@ -42,7 +33,7 @@ def check_data_exists(work_dir):
 
     if not os.path.exists(sample_data):
         file_name = os.path.basename(sample_data)
-        print("The test data do not exist. Downloading {} (472 MB) ...".format(file_name))
+        print("The test data do not exist. Downloading {} (1003 MB) ...".format(file_name))
         download_from_gdrive(sample_data_url, file_name, unzip=True)
 
 
@@ -84,6 +75,13 @@ def predict(checkpoint_path, image_path, save_path):
     cv2.imwrite(save_path, dwm * 255)
 
 if __name__ == '__main__':
+
+    # ''' Runs inference on a given GeoTIFF image.
+
+    # example:
+    # $ python inference.py --checkpoint_path checkpoints/cp.135.ckpt \
+    #     --image_path sample_data/sentinel2_example.tif --save_path water_map.png
+    # '''
     # parser = argparse.ArgumentParser()
     # parser.add_argument('--checkpoint_path', type=str,
     #                     help="Path to the dir where the checkpoints are stored")
@@ -103,9 +101,11 @@ if __name__ == '__main__':
     check_data_exists(work_dir)
 
     # set input image name/path
-    in_image_name = "sentinel2_example.tif"
+    in_image_name = "landsat8_sample.tif"
+    # in_image_name = "sentinel2_example.tif"
+    # in_image_name = "LC80320272015140LGN01.tif"
     # in_image_name = "p225r060_WC_19991031.tif"
-    in_image_name = "p200r018_WC_19990712.tif"
+    # in_image_name = "p200r018_WC_19990712.tif"
     in_image_path = os.path.join(work_dir, "sample_data", in_image_name)
     
     # whether or not to use PNG as the output image format
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         os.makedirs(output_dir)
 
     # output image name is based on the input image name
-    basename, extension = os.path.splitext(in_image_name)
+    basename, extension = os.path.splitext(os.path.basename(in_image_path))
     if use_png_ext:
         extension = ".png"
     out_image_name = basename + "_water" + extension
